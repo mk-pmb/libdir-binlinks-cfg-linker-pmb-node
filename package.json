@@ -1,0 +1,31 @@
+{ "name": "libdir-binlinks-cfg-linker-pmb",
+  "version": "0.0.1",
+  "description": "An npm postinstall helper for installing symlinks according to `binlinks.cfg`, a more compact notation than the package.json `bin` field.",
+  "keywords": [],
+
+  "author": "M.K. (https://github.com/mk-pmb)",
+  "homepage": "https://github.com/mk-pmb/libdir-binlinks-cfg-linker-pmb-node/#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mk-pmb/libdir-binlinks-cfg-linker-pmb-node.git"
+  },
+  "bugs": {
+    "url": "https://github.com/mk-pmb/libdir-binlinks-cfg-linker-pmb-node/issues"
+  },
+  "contributors": [],
+
+  "private": false, "license": "ISC",
+
+  "bin": { "pmb-libdir-make-binlinks-for-npmpkg": "bin/cli.js" },
+  "scripts": { "test": "nodemjs test/all.mjs" },
+  "directories": { "test": "test" },
+
+
+  "dependencies": {
+    "esmod-pmb": "^0.1.11"
+  },
+  "devDependencies": {
+    "nodemjs": "^0.1.8"
+  },
+  "npm vs. BOM = Unexpected token": "-*- coding: UTF-8 -*-"
+}

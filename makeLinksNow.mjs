@@ -30,6 +30,12 @@ async function readOldLink(lnk) {
 }
 
 async function linkNow() {
+  const npmBlOpt = process.env.npm_config_bin_links;
+  if (npmBlOpt && (npmBlOpt !== 'true')) {
+    console.debug('Skipping symlink updates as per npm "bin-links" option.');
+    return;
+  }
+
   const ldPath = await detectLdParentDir();
   const binDir = ldPath.par + '/bin';
   const blCfg = await prFs.readFile(ldPath.full + '/binlinks.cfg', 'UTF-8');
@@ -53,7 +59,7 @@ async function linkNow() {
 
   await prFs.mkdirp(binDir);
   const fails = (await pMap(blTodo, catchErr(tryOne))).filter(Boolean);
-  if (!fails.length) { process.exit(0); }
+  if (!fails.length) { return; }
   if (fails.length === 1) { throw fails[0]; }
   const report = [
     fails.length + ' errors:',
@@ -62,4 +68,9 @@ async function linkNow() {
   throw new Error(report);
 }
 
-setImmediate(linkNow);
+async function andExit() {
+  await linkNow();
+  process.exit(0);
+}
+
+setImmediate(andExit);

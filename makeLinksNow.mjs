@@ -31,16 +31,16 @@ async function readOldLink(lnk) {
 
 async function linkNow() {
   const ldPath = await detectLdParentDir();
-  const linkPathPrefix = ldPath.par + '/bin/';
-  const blCfgText = await prFs.readFile(ldPath.full
-    + '/binlinks.cfg', 'UTF-8');
-  const blTodo = blParse(blCfgText);
+  const binDir = ldPath.par + '/bin';
+  const blCfg = await prFs.readFile(ldPath.full + '/binlinks.cfg', 'UTF-8');
+  const blTodo = blParse(blCfg);
+  if (!blTodo.length) { return; }
 
   async function tryOne(parsed) {
     const { cmd, arrow, prog } = parsed;
     if (arrow !== '<-') { throw new Error('Unsupported arrow: ' + arrow); }
     // "<-" means "provides", i.e. opposite of symlink direction!
-    const lnk = linkPathPrefix + cmd;
+    const lnk = binDir + '/' + cmd;
     const dest = ('../lib/' + ldPath.sub + '/' + prog);
     const oldDest = await readOldLink(lnk);
     if (oldDest) {
@@ -51,6 +51,7 @@ async function linkNow() {
     await prFs.symlink(dest, lnk);
   }
 
+  await prFs.mkdirp(binDir);
   const fails = (await pMap(blTodo, catchErr(tryOne))).filter(Boolean);
   if (!fails.length) { process.exit(0); }
   if (fails.length === 1) { throw fails[0]; }

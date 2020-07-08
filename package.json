@@ -1,5 +1,5 @@
 { "name": "libdir-binlinks-cfg-linker-pmb",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "An npm postinstall helper for installing symlinks according to `binlinks.cfg`, a more compact notation than the package.json `bin` field.",
   "keywords": [],
 

@@ -21,8 +21,8 @@ This package is not intended to be used as a JS module.
 Usage
 -----
 
-In your `package.json`, add this module as a dependency, and set
-`pmb-libdir-make-binlinks-for-npmpkg` as your `postinstall` script, e.g.
+In your `package.json`, add this module as a dependency,
+and set your `postinstall` script like this:
 
 ```json
 { "name": "some-package",
@@ -30,7 +30,7 @@ In your `package.json`, add this module as a dependency, and set
     "…": "…"
   },
   "scripts": {
-    "postinstall": "pmb-libdir-make-binlinks-for-npmpkg"
+    "postinstall": "node -r libdir-binlinks-cfg-linker-pmb"
   }
 }
 ```
@@ -43,6 +43,8 @@ In your `package.json`, add this module as a dependency, and set
 Known issues
 ------------
 
+* When testing your `postinstall` script, you can add `--no-save` to
+  your `npm install` command to make it not reformat your `package.json`.
 * Needs more/better tests and docs.
 
 

@@ -36,6 +36,16 @@ and set your `postinstall` script like this:
 ```
 
 
+Fallback sed script
+-------------------
+
+Need a shim for environments where npm isn't easily available?
+(e.g. embedded device with just busybox and too few space for node.js)
+
+[src/binlinks.minimal.sed](src/binlinks.minimal.sed)
+should help with at least the simple cases.
+
+
 <!--#toc stop="scan" -->
 
 

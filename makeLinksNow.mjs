@@ -9,11 +9,21 @@ import detectLdParentDir from './src/detectLdParentDir';
 import blParse from './src/blParse';
 
 
+const dbgLv = (+process.env.DEBUGLEVEL || 0);
+
+
 function catchErr(f) {
   return async(x) => { try { await f(x); } catch (e) { return e; } };
 }
 
 function explainFail(err) { return String(err).replace(/^Error: /, ''); }
+
+function verifyShellSafe(x, d) {
+  // i.e. contains no characters what we'd want to escape.
+  const m = (/^[A-Za-z0-9_\-\.\/]+$/.exec(x) || false)[0];
+  if (m === x) { return m; }
+  throw new Error('Unexpected characters: ' + x);
+}
 
 async function readOldLink(lnk) {
   try {
@@ -49,9 +59,18 @@ async function linkNow() {
     const lnk = binDir + '/' + cmd;
     const dest = ('../lib/' + ldPath.sub + '/' + prog);
     const oldDest = await readOldLink(lnk);
+    if (dbgLv >= 2) {
+      console.debug('# ln --symbolic --no-clobber --no-target-directory --',
+        verifyShellSafe(dest), verifyShellSafe(lnk));
+    }
     if (oldDest) {
       if (oldDest.err) { throw new Error(oldDest.err); }
-      if (oldDest.dest === dest) { return; }
+      if (oldDest.dest === dest) {
+        if (dbgLv >= 2) {
+          console.debug('# Symlink already points correctly:', lnk);
+        }
+        return;
+      }
       await prFs.unlink(lnk);
     }
     await prFs.symlink(dest, lnk);

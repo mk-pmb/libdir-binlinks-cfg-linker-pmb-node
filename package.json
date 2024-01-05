@@ -17,20 +17,25 @@
   "private": false, "license": "ISC",
 
   "main": "makeLinksNow.js",
-  "scripts": { "test": "nodemjs test/all.mjs" },
+  "scripts": { "test": "elp && nodemjs test/all.mjs" },
   "directories": { "test": "test" },
+  "eslintConfig": { "extends": "nodejs-pmb" },
 
 
   "dependencies": {
     "esmod-pmb": "^0.1.13",
     "nofs": "^0.12.2",
-    "p-fatal": "^0.1.3",
+    "p-fatal": "^0.1.5",
     "p-map": "^4.0.0",
     "split-string-or-buffer-once-pmb": "^1.0.0",
     "usnam-pmb": "^0.2.5"
   },
   "devDependencies": {
-    "nodemjs": "^0.1.13"
+    "eslint-config-nodejs-pmb": "^0.3.5",
+    "eslint-plugin-json-light-pmb": "^1.0.7",
+    "eslint-plugin-n": "^15.2.4",
+    "eslint-pretty-pmb": "^1.0.5",
+    "nodemjs": "^0.1.14"
   },
   "npm vs. BOM = Unexpected token": "-*- coding: UTF-8 -*-"
 }

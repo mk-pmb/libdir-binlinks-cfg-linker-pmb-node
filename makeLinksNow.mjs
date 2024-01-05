@@ -1,7 +1,10 @@
 // -*- coding: utf-8, tab-width: 2 -*-
 
+import pathLib from 'path';
+
 import 'p-fatal';
 import 'usnam-pmb';
+
 import prFs from 'nofs';
 import pMap from 'p-map';
 
@@ -23,6 +26,10 @@ function verifyShellSafe(x) {
   const m = (/^[A-Za-z0-9_\-\.\/]+$/.exec(x) || false)[0];
   if (m === x) { return m; }
   throw new Error('Unexpected characters: ' + x);
+}
+
+function expectWeCouldExec(path) {
+  return prFs.access(path, prFs.constants.X_OK);
 }
 
 async function readOldLink(lnk) {
@@ -58,6 +65,19 @@ async function linkNow() {
     // "<-" means "provides", i.e. opposite of symlink direction!
     const lnk = binDir + '/' + cmd;
     const destRel = ('../lib/' + ldPath.sub + '/' + prog);
+
+    const destAbs = pathLib.join(binDir, destRel);
+    const flinch = await expectWeCouldExec(destAbs).catch((err) => {
+      if (err.code === 'ENOENT') { return 'not exist'; }
+      if (err.code === 'EACCES') { return 'not be executable'; }
+      throw err;
+    });
+    if (flinch) {
+      console.error('W: Flinching: Target seems to', flinch,
+        'for symlink', lnk, '->', destRel, '=', destAbs);
+      return;
+    }
+
     const destOld = await readOldLink(lnk);
     if (dbgLv >= 2) {
       console.debug('# ln --symbolic --no-clobber --no-target-directory --',

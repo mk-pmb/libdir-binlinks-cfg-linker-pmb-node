@@ -57,15 +57,15 @@ async function linkNow() {
     if (arrow !== '<-') { throw new Error('Unsupported arrow: ' + arrow); }
     // "<-" means "provides", i.e. opposite of symlink direction!
     const lnk = binDir + '/' + cmd;
-    const dest = ('../lib/' + ldPath.sub + '/' + prog);
-    const oldDest = await readOldLink(lnk);
+    const destRel = ('../lib/' + ldPath.sub + '/' + prog);
+    const destOld = await readOldLink(lnk);
     if (dbgLv >= 2) {
       console.debug('# ln --symbolic --no-clobber --no-target-directory --',
-        verifyShellSafe(dest), verifyShellSafe(lnk));
+        verifyShellSafe(destRel), verifyShellSafe(lnk));
     }
-    if (oldDest) {
-      if (oldDest.err) { throw new Error(oldDest.err); }
-      if (oldDest.dest === dest) {
+    if (destOld) {
+      if (destOld.err) { throw new Error(destOld.err); }
+      if (destOld.dest === destRel) {
         if (dbgLv >= 2) {
           console.debug('# Symlink already points correctly:', lnk);
         }
@@ -73,7 +73,7 @@ async function linkNow() {
       }
       await prFs.unlink(lnk);
     }
-    await prFs.symlink(dest, lnk);
+    await prFs.symlink(destRel, lnk);
   }
 
   await prFs.mkdirp(binDir);

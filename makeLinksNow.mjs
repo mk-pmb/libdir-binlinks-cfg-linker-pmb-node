@@ -5,20 +5,20 @@ import 'usnam-pmb';
 import prFs from 'nofs';
 import pMap from 'p-map';
 
-import detectLdParentDir from './src/detectLdParentDir';
-import blParse from './src/blParse';
+import detectLdParentDir from './src/detectLdParentDir.mjs';
+import blParse from './src/blParse.mjs';
 
 
 const dbgLv = (+process.env.DEBUGLEVEL || 0);
 
 
 function catchErr(f) {
-  return async(x) => { try { await f(x); } catch (e) { return e; } };
+  return async (x) => { try { await f(x); } catch (e) { return e; } };
 }
 
 function explainFail(err) { return String(err).replace(/^Error: /, ''); }
 
-function verifyShellSafe(x, d) {
+function verifyShellSafe(x) {
   // i.e. contains no characters what we'd want to escape.
   const m = (/^[A-Za-z0-9_\-\.\/]+$/.exec(x) || false)[0];
   if (m === x) { return m; }
@@ -89,7 +89,7 @@ async function linkNow() {
 
 async function andExit() {
   await linkNow();
-  process.exit(0);
+  process.exit(0); // eslint-disable-line n/no-process-exit
 }
 
 setImmediate(andExit);

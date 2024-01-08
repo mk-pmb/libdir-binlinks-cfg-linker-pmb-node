@@ -1,15 +1,16 @@
 // -*- coding: utf-8, tab-width: 2 -*-
+'use strict';
 
-import pathLib from 'path';
+const pathLib = require('path');
 
-import 'p-fatal';
-import 'usnam-pmb';
+require('p-fatal');
+require('usnam-pmb');
 
-import prFs from 'nofs';
-import pMap from 'p-map';
+const prFs = require('nofs');
+const pMap = require('p-map');
 
-import detectLdParentDir from './src/detectLdParentDir.mjs';
-import blParse from './src/blParse.mjs';
+const detectLdParentDir = require('./src/detectLdParentDir.js');
+const blParse = require('./src/blParse.js');
 
 
 const dbgLv = (+process.env.DEBUGLEVEL || 0);

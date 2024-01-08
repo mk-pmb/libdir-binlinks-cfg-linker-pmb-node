@@ -23,7 +23,6 @@
 
 
   "dependencies": {
-    "esmod-pmb": "^0.1.13",
     "nofs": "^0.12.2",
     "p-fatal": "^0.1.5",
     "p-map": "^4.0.0",
@@ -37,5 +36,9 @@
     "eslint-pretty-pmb": "^1.0.5",
     "nodemjs": "^0.1.14"
   },
-  "npm vs. BOM = Unexpected token": "-*- coding: UTF-8 -*-"
+
+
+
+
+  "engines": { "npm": ">=7.0.0", "node": ">=12.0.0" }
 }

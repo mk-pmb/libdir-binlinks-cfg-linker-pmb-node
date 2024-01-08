@@ -1,7 +1,8 @@
 // -*- coding: utf-8, tab-width: 2 -*-
+'use strict';
 
-import splitOnce from 'split-string-or-buffer-once-pmb';
-import prFs from 'nofs';
+const splitOnce = require('split-string-or-buffer-once-pmb');
+const prFs = require('nofs');
 
 
 function splitLib(path) {
@@ -32,4 +33,4 @@ async function detectLdParentDir() {
 }
 
 
-export default detectLdParentDir;
+module.exports = detectLdParentDir;

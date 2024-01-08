@@ -1,7 +1,7 @@
 // -*- coding: utf-8, tab-width: 2 -*-
+'use strict';
 
-import assert from 'assert';
-
+const assert = require('assert');
 
 const specRgx = /^(\S*)(\.([a-z]{2,8}))$/;
 
@@ -33,4 +33,4 @@ function blParse(input) {
 }
 
 
-export default blParse;
+module.exports = blParse;
